@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Country List Search</title>
+</head>
+<body>
+
+  <h1>Country List Search</h1>
+
+  <div class="autocomplete-container">
+    <input type="text" id="searchBox" placeholder="Type a country name...">
+    <div id="suggestions" class="suggestions hidden"></div>
+  </div>
+
+  <script>
+    // List of countries
+    var countries = [
+      "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia",
+      "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
+      "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina",
+      "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia",
+      "Cameroon", "Canada", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo",
+      "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czechia", "Denmark", "Djibouti",
+      "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Estonia",
+      "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia",
+      "Germany", "Ghana", "Greece", "Guatemala", "Guinea", "Guyana", "Haiti", "Honduras",
+      "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel",
+      "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait",
+      "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya",
+      "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali",
+      "Malta", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
+      "Mozambique", "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand",
+      "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman",
+      "Pakistan", "Palau", "Panama", "Paraguay", "Peru", "Philippines", "Poland",
+      "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Samoa", "San Marino",
+      "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore",
+      "Slovakia", "Slovenia", "Somalia", "South Africa", "South Korea", "Spain",
+      "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan",
+      "Tajikistan", "Tanzania", "Thailand", "Togo", "Trinidad and Tobago", "Tunisia",
+      "Turkey", "Turkmenistan", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom",
+      "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela",
+      "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+    ];
+
+    // Grab input and suggestions container
+    var searchBox = document.getElementById('searchBox');
+    var suggestions = document.getElementById('suggestions');
+
+    // Listen for input on search box
+    searchBox.addEventListener('input', function() {
+      var inputValue = searchBox.value.toLowerCase().trim();
+
+      // Clear previous suggestions
+      suggestions.innerHTML = '';
+
+      if (inputValue === '') {
+        suggestions.classList.add('hidden');
+        return;
+      }
+
+      // Filter countries by input
+      var filtered = countries.filter(function(country) {
+        return country.toLowerCase().startsWith(inputValue);
+      }).slice(0, 10); // show max 10 suggestions
+
+      if (filtered.length === 0) {
+        suggestions.classList.add('hidden');
+        return;
+      }
+
+      // Show suggestions container
+      suggestions.classList.remove('hidden');
+
+      // Add each suggestion as a div
+      filtered.forEach(function(country) {
+        var div = document.createElement('div');
+        div.textContent = country;
+        div.classList.add('suggestion-item');
+
+        // When suggestion is clicked, put it in input and hide suggestions
+        div.addEventListener('click', function() {
+          searchBox.value = country;
+          suggestions.classList.add('hidden');
+        });
+
+        suggestions.appendChild(div);
+      });
+    });
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.autocomplete-container')) {
+        suggestions.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>
